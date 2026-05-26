@@ -1,0 +1,19 @@
+[project]
+name = "rpg-fastapi"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.111.0",
+    "uvicorn[standard]>=0.29.0",
+    "scikit-learn>=1.4.0",
+    "joblib>=1.4.0",
+    "numpy>=1.26.0",
+    "requests>=2.31.0",
+    "pydantic-settings>=2.2.0",
+]
+
+[tool.ruff]
+line-length = 100
+
+[tool.mypy]
+strict = true
