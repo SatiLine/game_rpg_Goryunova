@@ -1,0 +1,142 @@
+/* ── переменные ── */
+:root {
+  --bg:        #0f0d0a;
+  --bg-card:   #1a1610;
+  --bg-card2:  #221e14;
+  --border:    #3a3020;
+  --gold:      #c8922a;
+  --gold-dim:  #7a5818;
+  --text:      #d4c8a8;
+  --text-dim:  #7a7060;
+  --green:     #4a8c5a;
+  --red:       #8c3a3a;
+}
+
+/* ── base ── */
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Georgia", serif;
+  min-height: 100vh;
+}
+
+a { color: var(--gold); }
+a:hover { color: #e8b040; }
+
+/* ── navbar ── */
+.navbar {
+  border-bottom: 1px solid var(--border);
+  background: #080706 !important;
+}
+.navbar-brand {
+  color: var(--gold) !important;
+  letter-spacing: .05em;
+}
+
+/* ── cards ── */
+.card {
+  background: var(--bg-card) !important;
+  border-color: var(--border) !important;
+}
+.card-header {
+  background: var(--bg-card2) !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+/* ── кнопки ── */
+.btn-outline-warning {
+  color: var(--gold);
+  border-color: var(--gold-dim);
+}
+.btn-outline-warning:hover {
+  background: var(--gold-dim);
+  color: #fff;
+  border-color: var(--gold-dim);
+}
+.btn-warning {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #111;
+  font-weight: bold;
+}
+.btn-warning:hover {
+  background: #e8a830;
+  border-color: #e8a830;
+  color: #111;
+}
+.btn-outline-light { border-color: #4a4030; color: var(--text-dim); }
+.btn-outline-light:hover { background: #2a2418; color: var(--text); border-color: #6a5840; }
+.btn-outline-secondary { border-color: #3a3020; color: var(--text-dim); }
+.btn-outline-secondary:hover { background: #2a2418; color: var(--text); }
+.btn-outline-danger { border-color: var(--red); color: #c06060; }
+.btn-outline-danger:hover { background: var(--red); color: #fff; }
+
+/* ── формы ── */
+.form-control {
+  background: #150f08 !important;
+  border-color: #3a2e1a !important;
+  color: var(--text) !important;
+}
+.form-control:focus {
+  border-color: var(--gold-dim) !important;
+  box-shadow: 0 0 0 2px rgba(122, 88, 24, .25) !important;
+}
+.form-control::placeholder { color: #4a4030 !important; }
+.form-label { color: var(--text-dim); font-size: .9rem; }
+
+/* ── alerts / flash ── */
+.alert { border-radius: 4px; font-size: .9rem; }
+.alert-success { background: #1a2e1a; border-color: #2a4a2a; color: #80c080; }
+.alert-danger  { background: #2e1a1a; border-color: #4a2a2a; color: #c08080; }
+.alert-info    { background: #1a2030; border-color: #2a3a50; color: #80a0c0; }
+.btn-close { filter: invert(1) opacity(.5); }
+
+/* ── таблица истории ── */
+.table-dark {
+  --bs-table-bg: var(--bg-card);
+  --bs-table-hover-bg: var(--bg-card2);
+  --bs-table-border-color: var(--border);
+  font-size: .85rem;
+}
+.table th { color: var(--text-dim); font-weight: normal; border-color: var(--border) !important; }
+.table td { border-color: var(--border) !important; vertical-align: middle; }
+
+/* ── badge ── */
+.badge.bg-secondary { background: #2a2418 !important; color: var(--text-dim); border: 1px solid var(--border); }
+
+/* ── чат диалога ── */
+#chat-box { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+#chat-box::-webkit-scrollbar       { width: 5px; }
+#chat-box::-webkit-scrollbar-track { background: transparent; }
+#chat-box::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ── auth-карточки ── */
+.card.bg-secondary-subtle {
+  background: #e8e0d0 !important;
+  border-color: #c8b88a !important;
+}
+.card.bg-secondary-subtle .form-control {
+  background: #fff !important;
+  border-color: #c8b88a !important;
+  color: #222 !important;
+}
+.card.bg-secondary-subtle .form-control:focus {
+  border-color: #8a6030 !important;
+  box-shadow: 0 0 0 2px rgba(138, 96, 48, .2) !important;
+}
+.card.bg-secondary-subtle .form-label { color: #444; }
+.card.bg-secondary-subtle a { color: #6a4020; }
+.btn-dark { background: #1a1208; border-color: #3a2a10; }
+.btn-dark:hover { background: #2a1e0c; border-color: #5a4020; }
+
+/* ── игровой лог ── */
+#game-log { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+#game-log p { border-left: 2px solid var(--border); padding-left: 8px; }
+
+/* ── location header ── */
+h5.text-warning { color: var(--gold) !important; }
+
+/* ── скролл глобальный ── */
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }

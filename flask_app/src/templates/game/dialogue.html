@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %} — {{ npc.name }}{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-7">
+    <a href="{{ url_for('game.index') }}" class="btn btn-sm btn-outline-secondary mb-3">← Назад</a>
+
+    <div class="card bg-dark border-warning mb-3">
+      <div class="card-header d-flex justify-content-between">
+        <strong>{{ npc.name }}</strong>
+        <small class="text-muted">{{ npc.role }} · <span class="badge bg-secondary">{{ npc.state }}</span></small>
+      </div>
+      <div class="card-body" id="chat-box" style="min-height:250px;max-height:400px;overflow-y:auto;">
+        <p class="text-warning"><strong>{{ npc.name }}:</strong> Чего тебе?</p>
+        {% if reply %}
+          <p class="text-success"><strong>Вы:</strong> {{ form.message.data }}</p>
+          <p class="text-warning"><strong>{{ npc.name }}:</strong> {{ reply.dialogue }}</p>
+          <small class="text-muted">Настроение: {{ reply.npc_mood }} ({{ "%.0f"|format(reply.mood_confidence * 100) }}%)</small>
+        {% endif %}
+      </div>
+    </div>
+
+    <form method="POST">
+      {{ form.hidden_tag() }}
+      <div class="input-group">
+        {{ form.message(class="form-control bg-dark text-light border-secondary", placeholder="Что сказать...") }}
+        <button type="submit" class="btn btn-warning">Сказать</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
