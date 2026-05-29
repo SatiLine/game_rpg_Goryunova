@@ -10,6 +10,7 @@ from flask import (
 )
 from flask import current_app as app
 
+from src.game.npc import NPCState
 from src.web.forms import MessageForm
 
 logger = logging.getLogger(__name__)
@@ -96,6 +97,11 @@ def dialogue(npc_id: str):
             "player_hp": int(player["hp"]),
             "player_gold": int(player["gold"]),
         }
+
+        # Переводим NPC в режим разговора, чтобы модель не считала его занятым
+        npc.state = NPCState.TALKING
+        npc_data["npc_state"] = npc.state.value
+
         reply = _game_service().talk_to_npc(
             user_id=session["user_id"],
             npc_data=npc_data,
