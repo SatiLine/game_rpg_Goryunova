@@ -4,14 +4,18 @@ WORKDIR /app
 
 RUN pip install uv
 
-COPY pyproject.toml .
+COPY fastapi_app/pyproject.toml .
 RUN uv sync --no-dev
 
-COPY src/ src/
-COPY models/ models/ 2>/dev/null || true
+COPY fastapi_app/src/ src/
 
-# обучаем модель если её ещё нет
-COPY ../ml/train.py /tmp/train.py
+# Создаём папку для модели (она будет пустой, если модели нет)
+RUN mkdir -p models
+
+# Копируем скрипт обучения из корневой папки ml/
+COPY ml/train.py /tmp/train.py
+
+# Обучаем модель, если её ещё нет
 RUN if [ ! -f models/npc_model.pkl ]; then \
         uv run python /tmp/train.py models/npc_model.pkl; \
     fi
