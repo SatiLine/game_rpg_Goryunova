@@ -1,16 +1,19 @@
-import logging
+# fastapi_app/src/api/routes.py
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 
 from src.domain.entities import HealthResponse, ModelInfo, PredictRequest, PredictResponse
 from src.infrastructure.model_loader import ModelLoader
 from src.services.prediction_service import PredictionService
 
-logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
-def get_service(loader: ModelLoader = Depends()) -> PredictionService:  # type: ignore[assignment]
+def get_loader(request: Request) -> ModelLoader:
+    return request.app.state.loader  # берём уже загруженный инстанс
+
+
+def get_service(loader: ModelLoader = Depends(get_loader)) -> PredictionService:
     return PredictionService(loader)
 
 
@@ -22,17 +25,16 @@ def predict(
     try:
         return service.predict(req)
     except Exception as exc:
-        logger.error("Ошибка предсказания: %s", exc)
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
 @router.get("/health", response_model=HealthResponse)
-def health(loader: ModelLoader = Depends()) -> HealthResponse:  # type: ignore[assignment]
+def health(loader: ModelLoader = Depends(get_loader)) -> HealthResponse:
     return HealthResponse(status="ok", model_loaded=loader.is_loaded)
 
 
 @router.get("/model-info", response_model=ModelInfo)
-def model_info(loader: ModelLoader = Depends()) -> ModelInfo:  # type: ignore[assignment]
+def model_info(loader: ModelLoader = Depends(get_loader)) -> ModelInfo:
     return ModelInfo(
         name="NPCMoodClassifier",
         version="1.0.0",
