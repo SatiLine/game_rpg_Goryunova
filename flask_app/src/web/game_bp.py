@@ -1,8 +1,12 @@
 import logging
 
 from flask import (
-    Blueprint, abort, flash, jsonify, redirect,
-    render_template, request, session, url_for,
+    Blueprint,
+    abort,
+    jsonify,
+    render_template,
+    request,
+    session,
 )
 from flask import current_app as app
 
@@ -78,18 +82,18 @@ def dialogue(npc_id: str):
         w = _world()
 
         npc_data: dict[str, object] = {
-            "npc_id":               npc.id,
-            "npc_name":             npc.name,
-            "npc_role":             npc.role,
-            "npc_personality":      npc.personality,
-            "npc_state":            npc.state.value,
+            "npc_id": npc.id,
+            "npc_name": npc.name,
+            "npc_role": npc.role,
+            "npc_personality": npc.personality,
+            "npc_state": npc.state.value,
             "npc_long_term_memory": npc.long_term_memory,
-            "conversation_history": npc.memory,        
+            "conversation_history": npc.memory,
         }
         player_context: dict[str, object] = {
-            "game_hour":   w.hour,
+            "game_hour": w.hour,
             "player_name": session["username"],
-            "player_hp":   int(player["hp"]),
+            "player_hp": int(player["hp"]),
             "player_gold": int(player["gold"]),
         }
         reply = _game_service().talk_to_npc(
@@ -98,10 +102,11 @@ def dialogue(npc_id: str):
             player_context=player_context,
             player_message=form.message.data,
         )
-        npc.add_to_memory("user",      form.message.data)
+        npc.add_to_memory("user", form.message.data)
         npc.add_to_memory("assistant", str(reply.get("dialogue", "")))
 
     return render_template("game/dialogue.html", npc=npc.to_dict(), form=form, reply=reply)
+
 
 @game_bp.route("/history")
 def history():

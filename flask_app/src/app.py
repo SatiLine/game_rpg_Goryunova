@@ -31,10 +31,10 @@ def create_app() -> Flask:
     init_engine(config.database_url)
 
     # создаём общие объекты игрового мира
-    world       = World()
+    world = World()
     npc_manager = NPCManager("src/game/data/npcs.json")
 
-    app.extensions["world"]       = world
+    app.extensions["world"] = world
     app.extensions["npc_manager"] = npc_manager
 
     # DI: сервисы с зависимостями через конструктор
@@ -42,6 +42,7 @@ def create_app() -> Flask:
     @app.before_request
     def _attach_services() -> None:
         from flask import g
+
         session_gen = get_session()
         g.db = next(session_gen)
         g._session_gen = session_gen
@@ -53,6 +54,7 @@ def create_app() -> Flask:
     @app.teardown_request
     def _close_session(exc: BaseException | None) -> None:
         from flask import g
+
         gen = getattr(g, "_session_gen", None)
         if gen is not None:
             try:

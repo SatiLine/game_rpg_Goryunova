@@ -26,8 +26,8 @@ def upgrade() -> None:
         "predictions",
         sa.Column("id", sa.Integer, primary_key=True),
         sa.Column("user_id", sa.Integer, sa.ForeignKey("users.id"), nullable=False),
-        sa.Column("input_data", sa.Text, nullable=False),   # JSON
-        sa.Column("prediction", sa.Text, nullable=False),   # JSON
+        sa.Column("input_data", sa.Text, nullable=False),  # JSON
+        sa.Column("prediction", sa.Text, nullable=False),  # JSON
         sa.Column("created_at", sa.DateTime, server_default=sa.func.now()),
     )
 

@@ -45,11 +45,10 @@ class ModelLoader:
         npc_role: str,
         npc_state: str,
     ) -> tuple[str, float]:
-        role_id  = NPC_ROLES.index(npc_role)  if npc_role  in NPC_ROLES  else 2
-        state_id = NPC_STATES.index(npc_state) if npc_state in NPC_STATES else 0
-        busy     = 1 if npc_state in ("working", "wandering") else 0
+        role_id = NPC_ROLES.index(npc_role) if npc_role in NPC_ROLES else 2
+        busy = 1 if npc_state in ("working", "wandering") else 0
 
         X = np.array([[game_hour, player_gold, player_hp, role_id, busy]])
-        idx   = int(self._model.predict(X)[0])
+        idx = int(self._model.predict(X)[0])
         proba = float(self._model.predict_proba(X)[0][idx])
         return self._moods[idx], proba

@@ -1,0 +1,10 @@
+__init__
+app
+config
+domain
+game
+infrastructure
+services
+static
+templates
+web

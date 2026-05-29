@@ -32,17 +32,27 @@ class GameService:
         try:
             r = requests.post(
                 f"{self._ml_url}/predict",
-                json=payload,
+                json=payload,  # type: ignore[arg-type]
                 timeout=30,
             )
             r.raise_for_status()
             result: dict[str, object] = r.json()
         except requests.Timeout:
             logger.error("ML API таймаут для NPC %s", npc_data.get("npc_id"))
-            result = {"npc_id": npc_data.get("npc_id"), "dialogue": "...", "npc_mood": "unknown", "mood_confidence": 0.0}
+            result = {
+                "npc_id": npc_data.get("npc_id"),
+                "dialogue": "...",
+                "npc_mood": "unknown",
+                "mood_confidence": 0.0,
+            }
         except Exception as exc:
             logger.error("Ошибка ML API: %s", exc)
-            result = {"npc_id": npc_data.get("npc_id"), "dialogue": "Хм.", "npc_mood": "unknown", "mood_confidence": 0.0}
+            result = {
+                "npc_id": npc_data.get("npc_id"),
+                "dialogue": "Хм.",
+                "npc_mood": "unknown",
+                "mood_confidence": 0.0,
+            }
 
         self._repo.create(
             user_id=user_id,

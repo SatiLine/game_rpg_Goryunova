@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: rpg-fastapi
+Version: 0.1.0
+Requires-Python: >=3.11
+Requires-Dist: fastapi>=0.111.0
+Requires-Dist: uvicorn[standard]>=0.29.0
+Requires-Dist: scikit-learn>=1.4.0
+Requires-Dist: joblib>=1.4.0
+Requires-Dist: numpy>=1.26.0
+Requires-Dist: requests>=2.31.0
+Requires-Dist: pydantic-settings>=2.2.0

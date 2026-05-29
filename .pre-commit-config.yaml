@@ -6,13 +6,22 @@ repos:
         args: [--fix]
       - id: ruff-format
 
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.10.0
+  - repo: local
     hooks:
-      - id: mypy
-        additional_dependencies:
-          - types-requests
-          - sqlalchemy[mypy]
+      - id: mypy-fastapi
+        name: mypy (fastapi_app)
+        entry: cmd /c "cd fastapi_app && uv run mypy src/"
+        language: system
+        pass_filenames: false
+        types: [python]
+        require_serial: true
+      - id: mypy-flask
+        name: mypy (flask_app)
+        entry: cmd /c "cd flask_app && uv run mypy src/"
+        language: system
+        pass_filenames: false
+        types: [python]
+        require_serial: true
 
   - repo: https://github.com/commitizen-tools/commitizen
     rev: v3.27.0

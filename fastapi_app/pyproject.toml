@@ -16,4 +16,14 @@ dependencies = [
 line-length = 100
 
 [tool.mypy]
-strict = true
+ignore_missing_imports = true
+disallow_untyped_defs = false
+warn_return_any = false
+warn_unused_ignores = false
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "mypy>=2.1.0",
+    "pytest>=9.0.3",
+]

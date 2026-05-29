@@ -34,8 +34,8 @@ def login():  # type: ignore[return]
         if user is None:
             flash("Неверный логин или пароль.", "danger")
         else:
-            session["user_id"]   = user.id
-            session["username"]  = user.username
+            session["user_id"] = user.id
+            session["username"] = user.username
             return redirect(url_for("game.index"))
     return render_template("auth/login.html", form=form)
 

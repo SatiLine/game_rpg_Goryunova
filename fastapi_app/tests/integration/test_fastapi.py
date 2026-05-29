@@ -5,11 +5,11 @@ from unittest.mock import MagicMock, patch
 
 @pytest.fixture
 def client():
-    from fastapi_app.src.main import app
-    with patch("fastapi_app.src.infrastructure.model_loader.ModelLoader.load"):
-        with patch("fastapi_app.src.infrastructure.model_loader.ModelLoader.predict", return_value=("neutral", 0.8)):
-            with patch("fastapi_app.src.infrastructure.model_loader.ModelLoader.is_loaded", True):
-                with patch("fastapi_app.src.infrastructure.model_loader.ModelLoader.moods", ["hostile","neutral","friendly","busy"]):
+    from src.main import app
+    with patch("src.infrastructure.model_loader.ModelLoader.load"):
+        with patch("src.infrastructure.model_loader.ModelLoader.predict", return_value=("neutral", 0.8)):
+            with patch("src.infrastructure.model_loader.ModelLoader.is_loaded", True):
+                with patch("src.infrastructure.model_loader.ModelLoader.moods", ["hostile","neutral","friendly","busy"]):
                     yield TestClient(app)
 
 
