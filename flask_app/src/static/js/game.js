@@ -1,10 +1,15 @@
+// Берём CSRF-токен из мета-тега (должен быть определён в base.html)
+const CSRF = document.querySelector('meta[name="csrf-token"]')?.content || '';
 const TICK_MS = 30000;
 
 async function moveTo(location) {
-  const res  = await fetch("/move", {
-    method:  "POST",
-    headers: {"Content-Type": "application/json"},
-    body:    JSON.stringify({location}),
+  const res = await fetch("/move", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": CSRF
+    },
+    body: JSON.stringify({ location }),
   });
   const data = await res.json();
   if (data.ok) {
@@ -51,7 +56,10 @@ function updateLocation(loc, npcs) {
 }
 
 async function tick() {
-  const res  = await fetch("/tick", {method: "POST"});
+  const res = await fetch("/tick", {
+    method: "POST",
+    headers: { "X-CSRFToken": CSRF }
+  });
   const data = await res.json();
   document.getElementById("wd").textContent = data.day;
   document.getElementById("wh").textContent = String(data.hour).padStart(2, "0");
@@ -59,8 +67,8 @@ async function tick() {
 }
 
 function addLog(msg) {
-  const log  = document.getElementById("game-log");
-  const p    = document.createElement("p");
+  const log = document.getElementById("game-log");
+  const p = document.createElement("p");
   p.className = "mb-0";
   p.textContent = msg;
   log.appendChild(p);
