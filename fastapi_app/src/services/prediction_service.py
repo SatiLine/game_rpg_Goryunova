@@ -40,30 +40,40 @@ def _template_dialogue(npc_role: str, mood: str) -> str:
 def _ollama_dialogue(req: PredictRequest, mood: str) -> str | None:
     if not settings.ollama_url:
         return None
+
     ltm = "; ".join(req.npc_long_term_memory) or "ничего особенного"
     system = (
-        f"Ты — {req.npc_name}, {req.npc_role}. Характер: {req.npc_personality}. "
-        f"О себе: {ltm}. Сейчас {req.game_hour:02d}:00, ты {req.npc_state}, "
-        f"твоё настроение: {mood}. Отвечай коротко (1-2 предложения) на русском, в образе."
+        f"Ты — {req.npc_name}, {req.npc_role} в средневековом городе.\n"
+        f"Характер: {req.npc_personality}\n"
+        f"О себе: {ltm}\n"
+        f"Сейчас {req.game_hour:02d}:00, ты {req.npc_state}, твоё настроение: {mood}.\n"
+        f"Разговариваешь с {req.player_name}.\n"
+        "Отвечай коротко (1-2 предложения) на русском, строго в образе. Не упоминай что ты ИИ."
     )
+
+    # история + новое сообщение
+    messages = list(req.conversation_history) + [
+        {"role": "user", "content": req.player_message}
+    ]
+
     try:
         r = requests.post(
             f"{settings.ollama_url}/api/chat",
             json={
                 "model":   settings.ollama_model,
                 "stream":  False,
-                "options": {"num_predict": 80, "temperature": 0.75},
-                "messages": [
-                    {"role": "system", "content": system},
-                    {"role": "user", "content": req.player_message},
-                ],
+                "options": {"num_predict": 100, "temperature": 0.8},
+                "messages": [{"role": "system", "content": system}] + messages,
             },
-            timeout=25,
+            timeout=30,
         )
         r.raise_for_status()
         return r.json()["message"]["content"].strip()
+    except requests.Timeout:
+        logger.error("Ollama таймаут для %s", req.npc_id)
+        return None
     except Exception as exc:
-        logger.error("Ollama недоступна: %s", exc)
+        logger.error("Ollama ошибка: %s", exc)
         return None
 
 

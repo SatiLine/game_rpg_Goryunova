@@ -13,6 +13,7 @@ class PredictRequest(BaseModel):
     player_hp: int = Field(ge=0, le=100)
     player_gold: int = Field(ge=0)
     player_message: str
+    conversation_history: list[dict[str, str]] = Field(default_factory=list)  # ← новое
 
 
 class PredictResponse(BaseModel):

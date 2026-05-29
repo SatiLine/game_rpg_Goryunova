@@ -64,7 +64,7 @@ def move():
 
 
 @game_bp.route("/dialogue/<npc_id>", methods=["GET", "POST"])
-def dialogue(npc_id: str):  # type: ignore[return]
+def dialogue(npc_id: str):
     _require_login()
     npc = _npc_manager().get(npc_id)
     if npc is None:
@@ -76,19 +76,21 @@ def dialogue(npc_id: str):  # type: ignore[return]
     if form.validate_on_submit():
         player = session.get("player", {"location": "таверна", "hp": 100, "gold": 50})
         w = _world()
+
         npc_data: dict[str, object] = {
-            "npc_id":              npc.id,
-            "npc_name":            npc.name,
-            "npc_role":            npc.role,
-            "npc_personality":     npc.personality,
-            "npc_state":           npc.state.value,
+            "npc_id":               npc.id,
+            "npc_name":             npc.name,
+            "npc_role":             npc.role,
+            "npc_personality":      npc.personality,
+            "npc_state":            npc.state.value,
             "npc_long_term_memory": npc.long_term_memory,
+            "conversation_history": npc.memory,        
         }
         player_context: dict[str, object] = {
             "game_hour":   w.hour,
             "player_name": session["username"],
-            "player_hp":   player["hp"],
-            "player_gold": player["gold"],
+            "player_hp":   int(player["hp"]),
+            "player_gold": int(player["gold"]),
         }
         reply = _game_service().talk_to_npc(
             user_id=session["user_id"],
@@ -100,7 +102,6 @@ def dialogue(npc_id: str):  # type: ignore[return]
         npc.add_to_memory("assistant", str(reply.get("dialogue", "")))
 
     return render_template("game/dialogue.html", npc=npc.to_dict(), form=form, reply=reply)
-
 
 @game_bp.route("/history")
 def history():

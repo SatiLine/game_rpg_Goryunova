@@ -5,7 +5,7 @@
   <div class="col-md-7">
     <a href="{{ url_for('game.index') }}" class="btn btn-sm btn-outline-secondary mb-3">← Назад</a>
 
-    <div class="card bg-dark border-warning mb-3">
+    <div class="card bg-dark border-warning mb-3 text-light">
       <div class="card-header d-flex justify-content-between">
         <strong>{{ npc.name }}</strong>
         <small class="text-muted">{{ npc.role }} · <span class="badge bg-secondary">{{ npc.state }}</span></small>
@@ -15,7 +15,7 @@
         {% if reply %}
           <p class="text-success"><strong>Вы:</strong> {{ form.message.data }}</p>
           <p class="text-warning"><strong>{{ npc.name }}:</strong> {{ reply.dialogue }}</p>
-          <small class="text-muted">Настроение: {{ reply.npc_mood }} ({{ "%.0f"|format(reply.mood_confidence * 100) }}%)</small>
+          <small class="text-white-50">Настроение: {{ reply.npc_mood }} ({{ "%.0f"|format(reply.mood_confidence * 100) }}%)</small>
         {% endif %}
       </div>
     </div>

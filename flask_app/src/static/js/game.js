@@ -21,8 +21,11 @@ async function moveTo(location) {
 }
 
 function updateLocation(loc, npcs) {
-  document.querySelector("h5.text-warning").textContent = loc.name;
-  document.querySelector("p.text-muted.fst-italic").textContent = loc.description;
+  const nameEl = document.getElementById("location-name");
+  if (nameEl) nameEl.textContent = loc.name;
+
+  const descEl = document.getElementById("location-desc");
+  if (descEl) descEl.textContent = loc.description;
 
   const exits = document.getElementById("exits");
   exits.innerHTML = "";

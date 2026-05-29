@@ -4,14 +4,14 @@
 <div class="row g-3">
 
   <div class="col-md-8">
-    <div class="card bg-dark border-warning">
+    <div class="card bg-dark border-warning text-light">
       <div class="card-body">
         <div class="d-flex justify-content-between mb-2">
-          <h5 class="text-warning">{{ location.name }}</h5>
-          <small class="text-muted">🕐 День <span id="wd">{{ world.day }}</span>,
+          <h5 id="location-name" class="text-warning">{{ location.name }}</h5>
+          <small class="text-white-50">🕐 День <span id="wd">{{ world.day }}</span>,
             <span id="wh">{{ world.hour }}</span>:00 (<span id="wt">{{ world.time_label }}</span>)</small>
         </div>
-        <p class="text-muted fst-italic">{{ location.description }}</p>
+        <p id="location-desc" class="text-white-50 fst-italic">{{ location.description }}</p>
 
         <div class="mb-3">
           <strong>Переходы:</strong>
@@ -28,26 +28,26 @@
   </div>
 
   <div class="col-md-4">
-    <div class="card bg-dark border-secondary mb-3">
+    <div class="card bg-dark border-secondary mb-3 text-light">
       <div class="card-body">
         <h6>{{ player.name }}</h6>
         <small>❤ <span id="php">{{ player.hp }}</span> &nbsp; 💰 <span id="pgold">{{ player.gold }}</span></small>
       </div>
     </div>
 
-    <div class="card bg-dark border-secondary">
+    <div class="card bg-dark border-secondary text-light">
       <div class="card-body">
         <strong>Здесь:</strong>
         <div id="npc-list" class="mt-2">
           {% for npc in npcs %}
             <div class="d-flex align-items-center justify-content-between mb-1">
-              <span>{{ npc.name }} <small class="text-muted">({{ npc.state }})</small></span>
+              <span>{{ npc.name }} <small class="text-white-50">({{ npc.state }})</small></span>
               {% if npc.state != 'sleeping' %}
                 <a href="{{ url_for('game.dialogue', npc_id=npc.id) }}" class="btn btn-sm btn-outline-light">Говорить</a>
               {% endif %}
             </div>
           {% else %}
-            <small class="text-muted">Никого нет.</small>
+            <small class="text-white-50">Никого нет.</small>
           {% endfor %}
         </div>
       </div>
